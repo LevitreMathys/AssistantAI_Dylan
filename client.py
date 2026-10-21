@@ -6,5 +6,5 @@ load_dotenv()
 
 client = OpenAI(
     api_key=os.environ.get("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1",
+    base_url=os.environ.get("BASE_URL"),
 )
