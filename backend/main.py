@@ -1,4 +1,4 @@
 
-from app import App
+from backend.app import App
 
 app = App()
