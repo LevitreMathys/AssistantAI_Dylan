@@ -1,7 +1,7 @@
-from tools.Hour import get_time
-from tools.search import search
-from tools.calendar.google_calendar import get_upcoming_events
-from db import create_table, drop_table
+from app.tools.Hour import get_time
+from app.tools.search import search
+from app.tools.calendar.google_calendar import get_upcoming_events
+from app.db import create_table, drop_table
 
 
 TOOLS_DEFINITIONS = [
