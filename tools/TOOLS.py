@@ -1,5 +1,6 @@
 from tools.Hour import get_time
 from tools.search import search
+from tools.calendar.google_calendar import get_upcoming_events
 from db import create_table, drop_table
 
 
@@ -74,6 +75,23 @@ TOOLS_DEFINITIONS = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_upcoming_events",
+            "description": "Liste les prochains événements de l'agenda Google de l'utilisateur (date de début et titre). À utiliser quand il demande son planning, ses rendez-vous ou ce qu'il a de prévu.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "max_results": {
+                        "type": "integer",
+                        "description": "Nombre maximum d'événements à renvoyer (1 à 50). 10 par défaut.",
+                    }
+                },
+                "required": [],
+            },
+        },
+    },
 
 ]
 
@@ -83,5 +101,6 @@ AVAILABLES_TOOLS : dict = {
     "get_time" : get_time,
     "create_table" : create_table,
     "drop_table" : drop_table,
-    "search" : search
+    "search" : search,
+    "get_upcoming_events" : get_upcoming_events,
 }
