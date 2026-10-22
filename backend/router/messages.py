@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 
 from app.LouisApp import LouisApp
 from backend.MessageRequest import MessageRequest
@@ -12,20 +12,31 @@ class MessagesRouter(APIRouter):
         self.Louis = louisApp
         self._insert_endpoints()
 
-    def _insert_endpoints(self):
+    def _insert_endpoints(self) -> None:
+        """
+        Insert API endpoints for message handling
+
+        """
         self.add_api_route("", self.get_messages, methods=["GET"])
         self.add_api_route("/send", self.send_message, methods=["POST"])
 
-    def send_message(self, request: MessageRequest):
-
+    def send_message(self, request: MessageRequest, response: Response) -> dict:
         if not request.message:
             return {"error": "Message is required"}
         try:
             return self.Louis.chat(message=request.message)
         except Exception as e:
-            print(f"Error occurred while sending message: {e}")
+            response.status_code = 500
+            return {"error": "Failed to send message"}
 
-    def get_messages(self):
+    def get_messages(self) -> dict:
+        """ Récupère les derniers messages envoyé.
+        Cette fonction va permettre au modèle de s'y retrouver dans la discussion. 
+        Cela fera office de mémoire.
+
+        Returns:
+            dict: Liste des derniers messages envoyés
+        """
         try:
             messages = trim_history(load_history(get_db_connection()))
         except Exception as e:
