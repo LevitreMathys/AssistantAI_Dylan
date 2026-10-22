@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: ""
+  url: "{{URL_API}}messages"
   auth: inherit
 
 settings:
