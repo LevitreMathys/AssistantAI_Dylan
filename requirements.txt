@@ -1,0 +1,13 @@
+# Modèle (API compatible OpenAI : Groq)
+openai==3.35.1
+python-dotenv==1.2.4
+
+# API
+fastapi==0.159.1
+uvicorn==0.54.0
+
+# Outils
+ddgs==9.16.0
+google-api-python-client==2.201.0
+google-auth==2.62.0
+google-auth-oauthlib==1.5.0
