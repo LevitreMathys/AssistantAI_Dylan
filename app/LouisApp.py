@@ -32,16 +32,24 @@ class LouisApp:
 
     def chat(self, message: str) -> dict:
 
+        consigne : str = """Tu es un assistant. 
+        Ton but est d'aider l'utilisateur au mieux de tes capacités. 
+        Si l'utilisateur te demande de faire quelque chose et que tu utilises un outil, assure-toi de demander la permission avant et de le faire correctement.
+        Si tu penses qu'une information est indispensable à sauvegarder tel que les noms, prénoms, ages, formations, ... tu dois sauvegarder ces informations dans la table "memoire".
+        Si tu as besoin d'une informations importante tu peux aller la chercher dans cette table "memoire"
+        """
+
         conn : sqlite3.Connection = get_db_connection()
 
         if not load_history(conn):
-                save_message(conn, {"role": "system", "content": "Tu es un assistant. ..."})
+                save_message(conn, {"role": "system", "content": consigne})
 
         if message.upper() in ("QUIT", "EXIT"):
             conn.close()
             return {"role": "system", "content": "Au revoir!"}
 
-        save_message(conn, {"role": "user", "content": message})
+
+        save_message(conn, {"role": "user", "content": consigne + " " + message})
 
         while True:
             # 'Envoi' du message au model
