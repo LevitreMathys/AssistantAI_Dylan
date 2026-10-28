@@ -50,6 +50,56 @@ def get_service():
     return build("calendar", "v3", credentials=creds)
 
 
+def insert_event(event_data: dict):
+    """Insère un nouvel événement dans l'agenda Google principal.
+
+    Args:
+        event_data: Un dictionnaire contenant les détails de l'événement.
+
+    Returns:
+        Un message indiquant le succès ou l'échec de l'opération.
+    """
+    try:
+        service = get_service()
+        event = service.events().insert(calendarId="primary", body=event_data).execute()
+        return f"Événement créé : {event.get('summary', '(sans titre)')}"
+    except HttpError as error:
+        return f"Erreur de l'API Google Calendar : {error}"
+
+def delete_event(event_id: str):
+    """Supprime un événement de l'agenda Google principal.
+
+    Args:
+        event_id: L'identifiant de l'événement à supprimer.
+
+    Returns:
+        Un message indiquant le succès ou l'échec de l'opération.
+    """
+    try:
+        service = get_service()
+        service.events().delete(calendarId="primary", eventId=event_id).execute()
+        return "Événement supprimé."
+    except HttpError as error:
+        return f"Erreur de l'API Google Calendar : {error}"
+
+
+def update_event(event_id: str, event_data: dict):
+    """Met à jour un événement de l'agenda Google principal.
+
+    Args:
+        event_id: L'identifiant de l'événement à mettre à jour.
+        event_data: Un dictionnaire contenant les nouveaux détails de l'événement.
+
+    Returns:
+        Un message indiquant le succès ou l'échec de l'opération.
+    """
+    try:
+        service = get_service()
+        event = service.events().update(calendarId="primary", eventId=event_id, body=event_data).execute()
+        return f"Événement mis à jour : {event.get('summary', '(sans titre)')}"
+    except HttpError as error:
+        return f"Erreur de l'API Google Calendar : {error}"
+
 def get_upcoming_events(max_results: int = 10) -> str:
     """Récupère les prochains événements de l'agenda Google principal.
 
