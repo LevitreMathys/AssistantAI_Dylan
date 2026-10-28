@@ -66,7 +66,21 @@ def insert_event(event_data: dict):
     except HttpError as error:
         return f"Erreur de l'API Google Calendar : {error}"
 
+def delete_event(event_id: str):
+    """Supprime un événement de l'agenda Google principal.
 
+    Args:
+        event_id: L'identifiant de l'événement à supprimer.
+
+    Returns:
+        Un message indiquant le succès ou l'échec de l'opération.
+    """
+    try:
+        service = get_service()
+        service.events().delete(calendarId="primary", eventId=event_id).execute()
+        return "Événement supprimé."
+    except HttpError as error:
+        return f"Erreur de l'API Google Calendar : {error}"
 
     
 
